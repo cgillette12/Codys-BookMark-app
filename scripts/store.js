@@ -2,13 +2,23 @@
 /* global $,api,*/
 
 const STORE = (function(){
+  const addBookmark = function(bookmark){
+    this.push(bookmark);
+  };
 
+  const toggleAddForDisplayed = function(){
+    this.adding = !this.adding;
+  }
+;
   return {
     booklist:[
-      {rating:'all',expanded: true}
+      {rating:'all',expanded: false}
     ],
-    adding:true,
-    ratingFilter: 'all'
+    adding:false,
+    ratingFilter: 'all',
+
+    addBookmark,
+    toggleAddForDisplayed
   };
   
 }());

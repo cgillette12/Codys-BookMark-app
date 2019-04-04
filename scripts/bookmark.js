@@ -7,7 +7,7 @@ const bookMarks = (function(){
   function generateDefultHeader(){
     return  `
         <div class="button-controler">
-          <button>Add Bookmarks</button>
+          <button class="add-bookmark">Add Bookmarks</button>
           <select name="rating-filter">
               <option value="all">all</option>
               <option value="1">1</option>
@@ -92,7 +92,24 @@ const bookMarks = (function(){
     $('.main-default-container').html(head);
     $('.bookmark-list').html(bookmarkList);
   };
+//   function findId(item){
+//     return $(item)
+//     .closest()
+//     .data('item-id');
+//   }
+  function handleShowAddBookmarkForm(){
+    $('.button-controler').on('click','.add-bookmark',function(event){
+      STORE.toggleAddForDisplayed();
+      render();
+    });
+  }
+  const mainHandleControler= (function(){
+    handleShowAddBookmarkForm();
+    
+  });
+
   return{ 
-    render
+    render,
+    mainHandleControler
   };
 }());
