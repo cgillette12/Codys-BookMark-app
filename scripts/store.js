@@ -4,9 +4,11 @@
 const STORE = (function(){
 
   return {
-    list:[],
-    adding:false,
-    ratingFilter: 0
+    booklist:[
+      {rating:'all',expanded: true}
+    ],
+    adding:true,
+    ratingFilter: 'all'
   };
   
 }());
