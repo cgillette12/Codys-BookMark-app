@@ -1,5 +1,5 @@
 'use strict';
-/* global $,api,store*/
+/* global $,api,STORE */
 
 const api = (function (){
 //   const base_Url = 'https://thinkful-list-api.herokuapp.com/joey/bookmarks';
@@ -21,5 +21,5 @@ const api = (function (){
   //     updatItem,
   //     deleteItem,
   // }
-  console.log(`i am you api`);
+  console.log(`i am your api`);
 }());

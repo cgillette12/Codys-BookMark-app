@@ -1,11 +1,13 @@
 'use strict';
-/* global $,api,store*/
+/* global $,api,*/
 
-const Store = (function(){
-  return {
-    adding:false,
-    list:[
-    //   {id:'id',title,url,decription,starRating,expanded:false}
-    ]
-  };
-});
+const STORE = (function(){
+//   return {
+//     adding:false,
+//     ratingFilter = 0;
+//     list:[
+//       {id:'id',title:'title',url:'url',decription:'des',starRating:'rating',expanded:false}
+//     ]
+//   };
+  console.log(`I'm your store`);
+}());

@@ -1,7 +1,7 @@
 'use strict';
-/* global $,api,Store , bookMarks*/
+/* global $,api,STORE , bookMarks*/
 $(function(){
   api,
   bookMarks,
-  Store.adding();
+  STORE;
 });
