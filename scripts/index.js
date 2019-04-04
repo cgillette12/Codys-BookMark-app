@@ -1,7 +1,8 @@
 'use strict';
 /* global $,api,STORE , bookMarks*/
 $(function(){
-  api,
-  bookMarks,
-  STORE;
+  api.getItems()
+    .then(res => console.log(res));
+  
+  console.log(api.BASE_URL);
 });
