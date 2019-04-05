@@ -56,7 +56,7 @@ const bookMarks = (function(){
     return `<li class="book-item" data-item-id="${booklist.id}">
       <h2>${booklist.title}</h2>
       <div class="list-expanded">
-          <p>Discription</p>
+          <p>${booklist.description}</p>
           <a href="link">Visit website</a>
           <div class="star-expanded-rating">
               <input type="radio" name="expanded-rating" value="1" class="star-expanded-rating" checked><label for="expanded-rating">1</label>
@@ -103,27 +103,26 @@ const bookMarks = (function(){
     });
   }
 
-  //   function handleAddBookmarkSubmit(){
-  //     $('.main-default-container').on('submit','.add-bookmark',function(event){
-  //       event.preventDefault();
-
-  //       const newTitle = $('#title').val; 
-  //       const newUrl = $('#url').val;
-  //       const newDescription = $('#description').val;
-  //       const newRating = $('input[type="radio"] [name="rating"]:checked').val;
-  //       let newobj={
-  //         newTitle,
-  //         newUrl,
-  //         newDescription,
-  //         newRating
-  //       };
-  //       STORE.addBookmark(newobj);
-  //       STORE.toggleAddForDisplayed();
-  //       render();
-  //     });
+  function handleAddBookmarkSubmit(){
+    $('.main-default-container').on('submit','.add-bookmark',function(event){
+      event.preventDefault();
+      const newTitle = $('#title').val; 
+      const newUrl = $('#url').val;
+      const newDescription = $('#description').val;
+      const newRating = $('input[type="radio"] [name="rating"]:checked').val;
+      let newobj={
+        newTitle,
+        newUrl,
+        newDescription,
+        newRating
+      };
+      STORE.addBookmark(newobj);
+      STORE.toggleAddForDisplayed();
+      render();
+    });
     
       
-  //   }
+  }
   function findTargetId(item){
     return $(item)
       .closest('.book-item')
@@ -139,11 +138,17 @@ const bookMarks = (function(){
       }
     });
   }
+  function serializeJson(form) {
+    const formData = new FormData(form);
+    const o = {};
+    formData.forEach((val, name) => o[name] = val);
+    return JSON.stringify(o);
+  }
 
   const mainHandleControler= (function(){
     handleShowAddBookmarkForm();
     handleCancelForm();
-    // handleAddBookmarkSubmit();
+    handleAddBookmarkSubmit();
     handleToggleExpandBookmark();
     
   });
