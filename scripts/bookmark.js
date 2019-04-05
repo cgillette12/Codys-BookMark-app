@@ -80,11 +80,7 @@ const bookMarks = (function(){
     let bookmarks = (STORE.ratingFilter === 'all') ? STORE.booklist : STORE.booklist.filter(obj => obj.rating >= STORE.ratingFilter);
     let bookmarkList = bookmarks.map(bookie =>{
       if(bookie.expanded){
-        if(bookie.editer){
-          return generateEditNewHeader();
-        }else{
-          return generateExpandedBookmark(bookie);
-        }
+        return generateExpandedBookmark(bookie);
       }else{
         return generateDefultbookmark(bookie);
       }
