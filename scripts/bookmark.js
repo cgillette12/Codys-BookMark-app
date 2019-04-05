@@ -21,11 +21,11 @@ const bookMarks = (function(){
   }
     
   function generateEditNewHeader(){
-    return `<form role="form">
+    return `<form class="formEditor" role="form">
         <label for="book-title">Create New Bookmark</label><br>
-        <input type="text" name="title" id="title" placeholder="facebook">
-        <input type="url" name="url" id="url" placeholder="https://www.facebook.com/"><br>
-        <input type="text" name="description" id="description" placeholder="description">
+        <input type="input-text" name="title" id="title" placeholder="facebook">
+        <input type="intput-text" name="url" id="url" placeholder="https://www.facebook.com/"><br>
+        <input type="input-text" name="description" id="description" placeholder="description">
      <div class="star-create-rating">
           <input type="radio" name="create-rating" value="1" class="star-create-rating" checked><label for="create-rating">1</label>
           <input type="radio" name="create-rating" value="2" class="star-create-rating"><label for="create-rating">2</label>
@@ -33,7 +33,7 @@ const bookMarks = (function(){
           <input type="radio" name="create-rating" value="4" class="star-create-rating"><label for="create-rating">4</label>
           <input type="radio" name="create-rating" value="5" class="star-create-rating"><label for="create-rating">5</label>
       </div>
-      <button class="add-bookmark" type="submit">Add Bookmark</button>
+      <button class="add-bookmark-42" type="submit">Add Bookmark</button>
       <button class="cancel-edit-button" type="button">Cancel</button>
    </form>`;
   }
@@ -57,7 +57,7 @@ const bookMarks = (function(){
       <h2>${booklist.title}</h2>
       <div class="list-expanded">
           <p>${booklist.description}</p>
-          <a href="link">Visit website</a>
+          <a href="${booklist.url}">Visit website</a>
           <div class="star-expanded-rating">
               <input type="radio" name="expanded-rating" value="1" class="star-expanded-rating" checked><label for="expanded-rating">1</label>
               <input type="radio" name="expanded-rating" value="2" class="star-expanded-rating"><label for="expanded-rating">2</label>
@@ -104,8 +104,9 @@ const bookMarks = (function(){
   }
 
   function handleAddBookmarkSubmit(){
-    $('.main-default-container').on('submit','.add-bookmark',function(event){
+    $('main-default-container').on('submit','.add-bookmark42',function(event){
       event.preventDefault();
+      console.log(event);
       const newTitle = $('#title').val; 
       const newUrl = $('#url').val;
       const newDescription = $('#description').val;
