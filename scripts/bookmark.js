@@ -132,9 +132,9 @@ const bookMarks = (function(){
   function handleToggleExpandBookmark(){
     $('.bookmark-list').on('click','.book-item',function(event){
       let itemId = findTargetId(event.currentTarget);
-      let bookmarkId = STORE.booklist.find(booker => itemId === booker.id);
-      if(!bookmarkId.editer){
-        STORE.toggleExpandBookmark(bookmarkId);
+      let bookmark = STORE.booklist.find(booker => itemId === booker.id);
+      if(!bookmark.editer){
+        STORE.toggleExpandBookmark(itemId);
         render();
       }
     });

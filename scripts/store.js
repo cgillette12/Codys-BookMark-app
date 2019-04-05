@@ -11,8 +11,10 @@ const STORE = (function(){
   };
   
   const toggleExpandBookmark= function(id){
-    const target = this.booklist.find(bookmarkId => id = bookmarkId.id);
+    const target = this.booklist.find(bookmarkObj=> bookmarkObj.id === id);
     target.expanded = !target.expanded;
+    
+    
   };
   
   
