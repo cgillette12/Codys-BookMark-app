@@ -19,10 +19,6 @@ const bookMarks = (function(){
         </div>`;
     
   }
-  //   function generateDefultHeadertoString(header){
-  //     const list = header.map((item) => generateDefultHeader(item));
-  //     return list.join('');
-  //   }
     
   function generateEditNewHeader(){
     return `<form role="form">
@@ -84,7 +80,11 @@ const bookMarks = (function(){
     let bookmarks = (STORE.ratingFilter === 'all') ? STORE.booklist : STORE.booklist.filter(obj => obj.rating >= STORE.ratingFilter);
     let bookmarkList = bookmarks.map(bookie =>{
       if(bookie.expanded){
-        return generateExpandedBookmark(bookie);
+        if(bookie.editer){
+          return generateEditNewHeader();
+        }else{
+          return generateExpandedBookmark(bookie);
+        }
       }else{
         return generateDefultbookmark(bookie);
       }
@@ -107,35 +107,40 @@ const bookMarks = (function(){
     });
   }
 
-  function handleAddBookmarkSubmit(){
-    $('.main-default-container').on('submit','.add-bookmark',function(event){
-      event.preventDefault();
+  //   function handleAddBookmarkSubmit(){
+  //     $('.main-default-container').on('submit','.add-bookmark',function(event){
+  //       event.preventDefault();
 
-      const newTitle = $('#title').val; 
-      const newUrl = $('#url').val;
-      const newDescription = $('#description').val;
-      const newRating = $('input[type="radio"] [name="rating"]:checked').val;
-      let newobj={
-        newTitle,
-        newUrl,
-        newDescription,
-        newRating
-      };
-      STORE.addBookmark(newobj);
-      STORE.toggleAddForDisplayed();
-      render();
-    });
+  //       const newTitle = $('#title').val; 
+  //       const newUrl = $('#url').val;
+  //       const newDescription = $('#description').val;
+  //       const newRating = $('input[type="radio"] [name="rating"]:checked').val;
+  //       let newobj={
+  //         newTitle,
+  //         newUrl,
+  //         newDescription,
+  //         newRating
+  //       };
+  //       STORE.addBookmark(newobj);
+  //       STORE.toggleAddForDisplayed();
+  //       render();
+  //     });
     
       
-  }
+  //   }
   function findTargetId(item){
     return $(item)
-      .closest('li')
-      .attr('.data-item-id');
+      .closest('.book-item')
+      .attr('data-item-id');
   }
   function handleToggleExpandBookmark(){
-    $('.bookmark-list-container').on('click',function(event){
-      console.log(findTargetId(event.currentTarget));
+    $('.bookmark-list').on('click','.book-item',function(event){
+      let itemId = findTargetId(event.currentTarget);
+      let bookmarkId = STORE.booklist.find(booker => itemId === booker.id);
+      if(!bookmarkId.editer){
+        STORE.toggleExpandBookmark(bookmarkId);
+        render();
+      }
     });
   }
 

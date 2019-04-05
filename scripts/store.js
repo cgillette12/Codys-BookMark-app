@@ -1,5 +1,5 @@
 'use strict';
-/* global $,api,*/
+/* global $,api,cuid*/
 
 const STORE = (function(){
   const addBookmark = function(bookmark){
@@ -11,7 +11,7 @@ const STORE = (function(){
   };
   
   const toggleExpandBookmark= function(id){
-    const target = this.booklist.find(items => items.id === id);
+    const target = this.booklist.find(bookmarkId => id = bookmarkId.id);
     target.expanded = !target.expanded;
   };
   
@@ -19,11 +19,10 @@ const STORE = (function(){
 
   return {
     booklist:[
-      {rating:'all',expanded: true}
+      {id:cuid(),title:'facebook',url:'https://www.facebook.com/',rating:'all', expanded: false, editer:false}
     ],
     addingBookmark:false,
     ratingFilter: 'all',
-
     addBookmark,
     toggleAddForDisplayed,
     toggleExpandBookmark,
