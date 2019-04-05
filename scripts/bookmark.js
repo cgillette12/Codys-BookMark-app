@@ -25,7 +25,7 @@ const bookMarks = (function(){
   //   }
     
   function generateEditNewHeader(){
-    return `<form action="bookMark" role="form">
+    return `<form  action="bookmark" role="form">
         <label for="book-title">Create New Bookmark</label><br>
         <input type="text" name="title" id="book-title" placeholder="facebook">
         <input type="text" name="url" id="book-title" placeholder="https://www.facebook.com/"><br>
@@ -38,7 +38,7 @@ const bookMarks = (function(){
           <input type="radio" name="create-rating" value="5" class="star-create-rating"><label for="create-rating">5</label>
       </div>
       <button class="add-sumbit-button" type="submit">Add Bookmark</button>
-      <button class="cancel-button" type="button">Cancel</button>
+      <button class="cancel-edit-button" type="button">Cancel</button>
    </form>`;
   }
   // generateStarRating();
@@ -80,7 +80,7 @@ const bookMarks = (function(){
   // handleStarEditing();
   // handleRatingFilter();
   const render = function(){
-    let head = (STORE.adding) ? generateEditNewHeader() : generateDefultHeader();
+    let head = (STORE.addingBookmark) ? generateEditNewHeader() : generateDefultHeader();
     let bookmarks = (STORE.ratingFilter === 'all') ? STORE.booklist : STORE.booklist.filter(obj => obj.rating >= STORE.ratingFilter);
     let bookmarkList = bookmarks.map(bookie =>{
       if(bookie.expanded){
@@ -92,19 +92,22 @@ const bookMarks = (function(){
     $('.main-default-container').html(head);
     $('.bookmark-list').html(bookmarkList);
   };
-//   function findId(item){
-//     return $(item)
-//     .closest()
-//     .data('item-id');
-//   }
+
   function handleShowAddBookmarkForm(){
-    $('.button-controler').on('click','.add-bookmark',function(event){
+    $('.main-default-container').on('click','.add-bookmark',function(){
+      STORE.toggleAddForDisplayed();
+      render();
+    });
+  }
+  function handleCancelForm(){
+    $('.main-default-container').on('click','.cancel-edit-button',function(){
       STORE.toggleAddForDisplayed();
       render();
     });
   }
   const mainHandleControler= (function(){
     handleShowAddBookmarkForm();
+    handleCancelForm();
     
   });
 

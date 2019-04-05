@@ -7,14 +7,16 @@ const STORE = (function(){
   };
 
   const toggleAddForDisplayed = function(){
-    this.adding = !this.adding;
-  }
-;
+    this.addingBookmark = !this.addingBookmark;
+  };
+  
+  
+
   return {
     booklist:[
-      {rating:'all',expanded: false}
+      {rating:'all',expanded: true}
     ],
-    adding:false,
+    addingBookmark:false,
     ratingFilter: 'all',
 
     addBookmark,
