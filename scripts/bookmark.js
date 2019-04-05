@@ -1,4 +1,4 @@
-/* global $,api,STORE ,bookMarks*/
+/* global $,api,STORE, cuid,bookMarks*/
 'use strict';
 const bookMarks = (function(){
  
@@ -37,16 +37,19 @@ const bookMarks = (function(){
       <button class="cancel-edit-button" type="button">Cancel</button>
    </form>`;
   }
-  // generateStarRating();
+  function generateStarRating(rating){
+    const fullStar = '&#9733;';
+    const hollowStar= '&#9734;'; 
+    const numberFilledStars = fullStar.repeat(rating);
+    const numberHollowStars = hollowStar.repeat(5 - rating);
+    return numberFilledStars + numberHollowStars;
+
+  }
   function generateDefultbookmark(booklist){
     return `<li class="book-item" data-item-id="${booklist.id}">
     <h2>${booklist.title}</h2>
     <div class="star-rating">
-        <input type="radio" name="rating" value="1" class="star-rating" checked><label for="rating">1</label>
-        <input type="radio" name="rating" value="2" class="star-rating"><label for="rating">2</label>
-        <input type="radio" name="rating" value="3" class="star-rating"><label for="rating">3</label>
-        <input type="radio" name="rating" value="4" class="star-rating"><label for="rating">4</label>
-        <input type="radio" name="rating" value="5" class="star-rating"><label for="rating">5</label>
+        <p class='ration'>${generateStarRating(booklist.rating)}
     </div>
     <button class="remove-bookmark">Delete</button>
 </li>`;
@@ -59,11 +62,7 @@ const bookMarks = (function(){
           <p>${booklist.description}</p>
           <a href="${booklist.url}">Visit website</a>
           <div class="star-expanded-rating">
-              <input type="radio" name="expanded-rating" value="1" class="star-expanded-rating" checked><label for="expanded-rating">1</label>
-              <input type="radio" name="expanded-rating" value="2" class="star-expanded-rating"><label for="expanded-rating">2</label>
-              <input type="radio" name="expanded-rating" value="3" class="star-expanded-rating"><label for="expanded-rating">3</label>
-              <input type="radio" name="expanded-rating" value="4" class="star-expanded-rating"><label for="expanded-rating">4</label>
-              <input type="radio" name="expanded-rating" value="5" class="star-expanded-rating"><label for="expanded-rating">5</label>
+          <p class='ration'>${generateStarRating(booklist.rating)}
           </div>
           <button class="remove-bookmark">remove</button>
       </div>
@@ -85,6 +84,8 @@ const bookMarks = (function(){
         return generateDefultbookmark(bookie);
       }
     });
+    // console.log(bookmarkList);
+
     $('.main-default-container').html(head);
     $('.bookmark-list').html(bookmarkList);
   };
@@ -104,18 +105,20 @@ const bookMarks = (function(){
   }
 
   function handleAddBookmarkSubmit(){
-    $('main-default-container').on('submit','.add-bookmark42',function(event){
+    $('.main-default-container').on('submit',function(event){
       event.preventDefault();
-      console.log(event);
-      const newTitle = $('#title').val; 
-      const newUrl = $('#url').val;
-      const newDescription = $('#description').val;
-      const newRating = $('input[type="radio"] [name="rating"]:checked').val;
+      const newTitle = $('#title').val(); 
+      const newUrl = $('#url').val();
+      const newDescription = $('#description').val();
+      const newRating = $('input[name=create-rating]:checked').val();
       let newobj={
-        newTitle,
-        newUrl,
-        newDescription,
-        newRating
+        id:cuid(),
+        title:newTitle,
+        url:newUrl,
+        description:newDescription,
+        rating:parseInt(newRating),
+        expanded: false, 
+        editer:false
       };
       STORE.addBookmark(newobj);
       STORE.toggleAddForDisplayed();
@@ -139,6 +142,13 @@ const bookMarks = (function(){
       }
     });
   }
+  function handleDeleteItem(){
+    $('.bookmark-list').on('click','.remove-bookmark',function(event){
+      let itemId = findTargetId(event.target);
+      STORE.removeItemFromBookmark(itemId);
+      render();
+    });
+  }
   function serializeJson(form) {
     const formData = new FormData(form);
     const o = {};
@@ -151,6 +161,7 @@ const bookMarks = (function(){
     handleCancelForm();
     handleAddBookmarkSubmit();
     handleToggleExpandBookmark();
+    handleDeleteItem();
     
   });
 

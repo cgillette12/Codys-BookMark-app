@@ -16,18 +16,24 @@ const STORE = (function(){
     target.expanded = !target.expanded;
     
   };
+  const removeItemFromBookmark = function(bookmark){
+    let bookfilter= this.booklist.filter(obj => obj.id !== bookmark);
+    this.booklist.splice(bookfilter, 1);
+  };
   
   
 
   return {
     booklist:[
-      {id:cuid(),title:'facebook',url:'https://www.facebook.com/', description: 'stuff', rating:'all', expanded: false, editer:false}
+      
     ],
     addingBookmark:false,
     ratingFilter: 'all',
     addBookmark,
     toggleAddForDisplayed,
     toggleExpandBookmark,
+    removeItemFromBookmark
+
   };
   
 }());
