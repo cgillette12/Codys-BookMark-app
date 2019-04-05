@@ -25,11 +25,11 @@ const bookMarks = (function(){
   //   }
     
   function generateEditNewHeader(){
-    return `<form  action="bookmark" role="form">
+    return `<form role="form">
         <label for="book-title">Create New Bookmark</label><br>
-        <input type="text" name="title" id="book-title" placeholder="facebook">
-        <input type="text" name="url" id="book-title" placeholder="https://www.facebook.com/"><br>
-        <input type="text" name="description" id="book-title" placeholder="description">
+        <input type="text" name="title" id="title" placeholder="facebook">
+        <input type="url" name="url" id="url" placeholder="https://www.facebook.com/"><br>
+        <input type="text" name="description" id="description" placeholder="description">
      <div class="star-create-rating">
           <input type="radio" name="create-rating" value="1" class="star-create-rating" checked><label for="create-rating">1</label>
           <input type="radio" name="create-rating" value="2" class="star-create-rating"><label for="create-rating">2</label>
@@ -37,14 +37,14 @@ const bookMarks = (function(){
           <input type="radio" name="create-rating" value="4" class="star-create-rating"><label for="create-rating">4</label>
           <input type="radio" name="create-rating" value="5" class="star-create-rating"><label for="create-rating">5</label>
       </div>
-      <button class="add-sumbit-button" type="submit">Add Bookmark</button>
+      <button class="add-bookmark" type="submit">Add Bookmark</button>
       <button class="cancel-edit-button" type="button">Cancel</button>
    </form>`;
   }
   // generateStarRating();
-  function generateDefultbookmark(){
-    return `<li>
-    <h2>Title</h2>
+  function generateDefultbookmark(booklist){
+    return `<li class="book-item" data-item-id="${booklist.id}">
+    <h2>${booklist.title}</h2>
     <div class="star-rating">
         <input type="radio" name="rating" value="1" class="star-rating" checked><label for="rating">1</label>
         <input type="radio" name="rating" value="2" class="star-rating"><label for="rating">2</label>
@@ -56,9 +56,9 @@ const bookMarks = (function(){
 </li>`;
   }
 
-  function generateExpandedBookmark(){
-    return `<li>
-      <h2>Title</h2>
+  function generateExpandedBookmark(booklist){
+    return `<li class="book-item" data-item-id="${booklist.id}">
+      <h2>${booklist.title}</h2>
       <div class="list-expanded">
           <p>Discription</p>
           <a href="link">Visit website</a>
@@ -74,7 +74,7 @@ const bookMarks = (function(){
   </li>`;
   }
     
-  // handleAddBookmarkSubmit();
+  
   // handleAddItem();
   // handleDeleteItem();
   // handleStarEditing();
@@ -84,9 +84,9 @@ const bookMarks = (function(){
     let bookmarks = (STORE.ratingFilter === 'all') ? STORE.booklist : STORE.booklist.filter(obj => obj.rating >= STORE.ratingFilter);
     let bookmarkList = bookmarks.map(bookie =>{
       if(bookie.expanded){
-        return generateExpandedBookmark();
+        return generateExpandedBookmark(bookie);
       }else{
-        return generateDefultbookmark();
+        return generateDefultbookmark(bookie);
       }
     });
     $('.main-default-container').html(head);
@@ -99,15 +99,51 @@ const bookMarks = (function(){
       render();
     });
   }
+
   function handleCancelForm(){
     $('.main-default-container').on('click','.cancel-edit-button',function(){
       STORE.toggleAddForDisplayed();
       render();
     });
   }
+
+  function handleAddBookmarkSubmit(){
+    $('.main-default-container').on('submit','.add-bookmark',function(event){
+      event.preventDefault();
+
+      const newTitle = $('#title').val; 
+      const newUrl = $('#url').val;
+      const newDescription = $('#description').val;
+      const newRating = $('input[type="radio"] [name="rating"]:checked').val;
+      let newobj={
+        newTitle,
+        newUrl,
+        newDescription,
+        newRating
+      };
+      STORE.addBookmark(newobj);
+      STORE.toggleAddForDisplayed();
+      render();
+    });
+    
+      
+  }
+  function findTargetId(item){
+    return $(item)
+      .closest('li')
+      .attr('.data-item-id');
+  }
+  function handleToggleExpandBookmark(){
+    $('.bookmark-list-container').on('click',function(event){
+      console.log(findTargetId(event.currentTarget));
+    });
+  }
+
   const mainHandleControler= (function(){
     handleShowAddBookmarkForm();
     handleCancelForm();
+    // handleAddBookmarkSubmit();
+    handleToggleExpandBookmark();
     
   });
 
