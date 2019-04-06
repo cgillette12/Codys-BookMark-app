@@ -60,11 +60,11 @@ const bookMarks = (function(){
     return `<li class="book-item" data-item-id="${booklist.id}">
       <h2>${booklist.title}</h2>
       <div class="star-rating">
-          <p>${booklist.description}</p>
+          <p>${booklist.desc}</p>
           <div class="star-expanded-rating">
           <p class='ration'>${generateStarRating(booklist.rating)}
           </div>
-          <a href="${booklist.url}">Visit website</a>
+          <p><a href="${booklist.url}">Visit website</a></p><br>
           <button class="edit-bookmark">Edit</button>
           <button class="remove-bookmark">remove</button>
       </div>
@@ -76,7 +76,7 @@ const bookMarks = (function(){
     return `<li class="book-item" data-item-id="${booklist.id}">
         <form class="edit-form">
         <h2>${booklist.title}</h2>
-                <input type="input-text" class="desc${booklist.id}" value="${booklist.description === ''?'No Description':booklist.description}"</p>
+                <input type="input-text" class="desc${booklist.id}" value="${booklist.desc === ''?'No Description':booklist.description}"</p>
             <div class="star-expanded-rating">
               <input type="radio" name="edit-rating${booklist.id}" class="rating" value="1"${(booklist.rating === 1) ? 'checked': ''}><label for="edit-rating">1</lable>
               <input type="radio" name="edit-rating${booklist.id}" class="rating" value="2"${(booklist.rating === 2) ? 'checked': ''}><label for="edit-rating">2</lable>
@@ -138,7 +138,7 @@ const bookMarks = (function(){
         id:cuid(),
         title:newTitle,
         url:newUrl,
-        description:newDescription,
+        desc:newDescription,
         rating:parseInt(newRating),
         expanded: false, 
         edit:false
@@ -160,10 +160,10 @@ const bookMarks = (function(){
   function handleEditFormBookmark(){
     $('.bookmark-list').on('click','.edit-bookmark',function(event){
       let itemId = findTargetId(event.currentTarget);
-      let bookmark = STORE.booklist.find(bookobj => itemId !== bookobj.id);
+      let bookmark = STORE.booklist.find(bookobj => itemId === bookobj.id);
       if(!bookmark.edit){
         const bookmarkData =collectEditData(itemId);
-        api.updatItem(bookmarkData,itemId);
+        api.updatItem(itemId,bookmarkData);
         STORE.updateBookmark(itemId,bookmarkData);
         STORE.toggleEdit(itemId);
         STORE.toggleExpandBookmark(itemId);
