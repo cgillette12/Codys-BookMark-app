@@ -59,7 +59,7 @@ const bookMarks = (function(){
   function generateExpandedBookmark(booklist){
     return `<li class="book-item" data-item-id="${booklist.id}">
       <h2>${booklist.title}</h2>
-      <div class="list-expanded">
+      <div class="star-rating">
           <p>${booklist.description}</p>
           <div class="star-expanded-rating">
           <p class='ration'>${generateStarRating(booklist.rating)}
@@ -101,7 +101,6 @@ const bookMarks = (function(){
           console.log(bookie.edit);
           return generateEditorForBookmarks(bookie);
         }else{
-          console.log(bookie.expanded);
           return generateExpandedBookmark(bookie);
         }
       }else{
@@ -155,16 +154,16 @@ const bookMarks = (function(){
   function collectEditData(id){
     const description =$(`.desc${id}`).val();
     const rating = $(`input[name=edit-rating${id}]:checked` ).val();
-    return {description:description, rating: Number(rating)};
+    return {desc:description, rating: Number(rating)};
   }
 
   function handleEditFormBookmark(){
     $('.bookmark-list').on('click','.edit-bookmark',function(event){
       let itemId = findTargetId(event.currentTarget);
-      console.log(findTargetId(event.currentTarget));
-      let bookmark = STORE.booklist.find(bookobj => itemId === bookobj.id);
-      if(bookmark.edit){
+      let bookmark = STORE.booklist.find(bookobj => itemId !== bookobj.id);
+      if(!bookmark.edit){
         const bookmarkData =collectEditData(itemId);
+        api.updatItem(bookmarkData,itemId);
         STORE.updateBookmark(itemId,bookmarkData);
         STORE.toggleEdit(itemId);
         STORE.toggleExpandBookmark(itemId);
@@ -188,7 +187,7 @@ const bookMarks = (function(){
       const bookmarkId = findTargetId(event.currentTarget);
       const booklist = collectEditData(bookmarkId);
       STORE.updateBookmark(bookmarkId,booklist);
-      render();
+      
     
     });
   };
@@ -198,7 +197,7 @@ const bookMarks = (function(){
       .attr('data-item-id');
   }
   function handleToggleExpandBookmark(){
-    $('.bookmark-list').on('click','.book-item',function(event){
+    $('.bookmark-list').on('click','h2',function(event){
       let itemId = findTargetId(event.currentTarget);
       let bookmark = STORE.booklist.find(bookobj => itemId === bookobj.id);
       if(!bookmark.edit){
@@ -208,8 +207,9 @@ const bookMarks = (function(){
     });
   }
   function handleDeleteItem(){
-    $('.bookmark-list').on('submit','.remove-bookmark',function(event){
+    $('.bookmark-list').on('click','.remove-bookmark',function(event){
       let itemId = findTargetId(event.target);
+      api.deleteItem(itemId);
       STORE.removeItemFromBookmark(itemId);
       render();
     });

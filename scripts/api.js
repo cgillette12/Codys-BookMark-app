@@ -16,16 +16,24 @@ const api = (function (){
       body: newItem,
     });
   };
-  //   const updatItem = function(){
-  //   PATCH
-  // }
-  // const deleteItem = function(){
-  //     DELETE
-  // }
+  const updatItem = function(id,bookmark){
+    let update = JSON.stringify(bookmark);
+    return fetch(`${base_Url}/${id}`,{
+      method :'PATCH',
+      headers:{'Content-Type':'application/json'},
+      body:update
+    });
+  };
+  const deleteItem = function(id){
+    return fetch(`${base_Url}/${id}`,{
+      method:'DELETE'
+    });
+
+  };
   return{
     getItems,
-    createItem
-  //     updatItem,
-  //     deleteItem,
+    createItem,
+    updatItem,
+    deleteItem
   };
 }());
