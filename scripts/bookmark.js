@@ -75,8 +75,7 @@ const bookMarks = (function(){
     return `<li class="book-item" data-item-id="${booklist.id}">
         <form class="edit-form">
         <h2>${booklist.title}</h2>
-            <div class="list-expanded">
-                <input type="input-text" class="desc${booklist.description}" value="${booklist.description === ''?'No Description':booklist.description}"</p>
+                <input type="input-text" class="desc${booklist.id}" value="${booklist.description === ''?'No Description':booklist.description}"</p>
             <div class="star-expanded-rating">
               <input type="radio" name="edit-rating${booklist.id}" class="rating" value=" ${STORE.ratingFilter === '1' ? 'selected': ''}"><label for="edit-rating">1</lable>
               <input type="radio" name="edit-rating${booklist.id}" class="rating" value="${STORE.ratingFilter === '2' ? 'selected': ''}"><label for="edit-rating">2</lable>
@@ -84,13 +83,11 @@ const bookMarks = (function(){
               <input type="radio" name="edit-rating${booklist.id}" class="rating" value="${STORE.ratingFilter === '4' ? 'selected': ''}"><label for="edit-rating">4</lable>
               <input type="radio" name="edit-rating${booklist.id}" class="rating"  value="${STORE.ratingFilter === '5' ? 'selected': ''}"><label for="edit-rating">5</lable>
             </div>
-        </form>
-            <div class="link-n-delete-buttons>
             <p><a href="${booklist.url}">Visit website</a></p>
             <button class="save-bookmark" type="submit" >Save</button>
-          <button class="cancel-bookmark">cancel</button>
-      </div>
-      </div>
+            <button class="cancel-bookmark">cancel</button>
+        
+        </form>
   </li>`;
   }
     
@@ -152,15 +149,15 @@ const bookMarks = (function(){
       
   }
   function collectEditData(id){
-    const description =$(`desc${id}`).val();
+    const description =$(`.desc${id}`).val();
     const rating = $(`input[name=edit-rating]:checked${id}` ).val();
-    
-    return {description:description,rating:Number(rating)};
+    return {description:description};
   }
 
   function handleEditFormBookmark(){
     $('.bookmark-list').on('click','.edit-bookmark',function(event){
       let itemId = findTargetId(event.currentTarget);
+      console.log(findTargetId(event.currentTarget));
       let bookmark = STORE.booklist.find(bookobj => itemId === bookobj.id);
       if(bookmark.edit){
         STORE.toggleEdit(itemId);
@@ -180,12 +177,11 @@ const bookMarks = (function(){
     });
   }
   const handleSubmitEdit = function(){
-    $('.bookmark-list').on('submit', function(event){
+    $('.bookmark-list').on('click','.save-bookmark', function(event){
       event.preventDefault();
-      console.log(event.target);
       const bookmarkId = findTargetId(event.currentTarget);
-      const updatedBookmark = collectEditData(bookmarkId);
-      STORE.updateBookmark(bookmarkId, updatedBookmark);
+      let bookmark = STORE.booklist.find(bookobj => bookmarkId === bookobj.id);
+      console.log(collectEditData(bookmarkId));
     });
   };
   function findTargetId(item){
@@ -204,15 +200,14 @@ const bookMarks = (function(){
     });
   }
   function handleDeleteItem(){
-    $('.bookmark-list').on('click','.remove-bookmark',function(event){
+    $('.bookmark-list').on('submit','.remove-bookmark',function(event){
       let itemId = findTargetId(event.target);
       STORE.removeItemFromBookmark(itemId);
       render();
     });
   }
   function handleBookmarkFilter(){
-    $('.main-default-container').on('change','.rating-filter',function(event){
-      console.log(event.target);
+    $('.main-default-container').on('change','.rating-filter',function(){
       const changedFilterValue = $('.rating-filter').val();
       STORE.toggleRatingFilter(changedFilterValue);
       render();
