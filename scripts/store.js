@@ -17,10 +17,19 @@ const STORE = (function(){
     
   };
   const removeItemFromBookmark = function(bookmark){
-    let bookfilter= this.booklist.filter(obj => obj.id !== bookmark);
+    let bookfilter = this.booklist.filter(obj => obj.id !== bookmark);
     this.booklist.splice(bookfilter, 1);
   };
   
+  const toggleRatingFilter = function(rating){
+    this.ratingFilter = rating === 'all'? rating : parseInt(rating);
+  };
+  
+  const toggleEdit = function(id){
+    let bookfilter = this.booklist.find(obj=> obj.id === id);
+    bookfilter.edit = !bookfilter.edit;
+    console.log(bookfilter);
+  };
   
 
   return {
@@ -32,7 +41,9 @@ const STORE = (function(){
     addBookmark,
     toggleAddForDisplayed,
     toggleExpandBookmark,
-    removeItemFromBookmark
+    removeItemFromBookmark,
+    toggleRatingFilter,
+    toggleEdit
 
   };
   
