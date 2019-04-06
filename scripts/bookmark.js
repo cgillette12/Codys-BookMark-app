@@ -74,20 +74,20 @@ const bookMarks = (function(){
   function generateEditorForBookmarks(booklist){
     return `<li class="book-item" data-item-id="${booklist.id}">
         <form class="edit-form">
-            <input type="input-text" id=title${booklist.id} value=${booklist.title}>
+        <h2>${booklist.title}</h2>
             <div class="list-expanded">
-                <input type="input-text" value="${booklist.description === ''?'No Description':booklist.description}"</p>
+                <input type="input-text" class="desc${booklist.description}" value="${booklist.description === ''?'No Description':booklist.description}"</p>
             <div class="star-expanded-rating">
-              <input type="radio" name="edit-rating" id="rating${booklist.id}" value=" ${STORE.ratingFilter === '1' ? 'selected': ''}"><label for="edit-rating">1</lable>
-              <input type="radio" name="edit-rating" id="rating${booklist.id}" value="${STORE.ratingFilter === '2' ? 'selected': ''}"><label for="edit-rating">2</lable>
-              <input type="radio" name="edit-rating" id="rating${booklist.id}" value="${STORE.ratingFilter === '3' ? 'selected': ''}"><label for="edit-rating">3</lable>
-              <input type="radio" name="edit-rating" id="rating${booklist.id}" value="${STORE.ratingFilter === '4' ? 'selected': ''}"><label for="edit-rating">4</lable>
-              <input type="radio"name="edit-rating" id="rating${booklist.id}"  value="${STORE.ratingFilter === '5' ? 'selected': ''}"><label for="edit-rating">5</lable>
+              <input type="radio" name="edit-rating${booklist.id}" class="rating" value=" ${STORE.ratingFilter === '1' ? 'selected': ''}"><label for="edit-rating">1</lable>
+              <input type="radio" name="edit-rating${booklist.id}" class="rating" value="${STORE.ratingFilter === '2' ? 'selected': ''}"><label for="edit-rating">2</lable>
+              <input type="radio" name="edit-rating${booklist.id}" class="rating" value="${STORE.ratingFilter === '3' ? 'selected': ''}"><label for="edit-rating">3</lable>
+              <input type="radio" name="edit-rating${booklist.id}" class="rating" value="${STORE.ratingFilter === '4' ? 'selected': ''}"><label for="edit-rating">4</lable>
+              <input type="radio" name="edit-rating${booklist.id}" class="rating"  value="${STORE.ratingFilter === '5' ? 'selected': ''}"><label for="edit-rating">5</lable>
             </div>
         </form>
             <div class="link-n-delete-buttons>
             <p><a href="${booklist.url}">Visit website</a></p>
-            <button class="save-bookmark">Save</button>
+            <button class="save-bookmark" type="submit" >Save</button>
           <button class="cancel-bookmark">cancel</button>
       </div>
       </div>
@@ -152,18 +152,17 @@ const bookMarks = (function(){
       
   }
   function collectEditData(id){
-    const title= $(`#title${id}`).val();
-    const description =$(`#description${id}`).val();
+    const description =$(`desc${id}`).val();
     const rating = $(`input[name=edit-rating]:checked${id}` ).val();
-    return {title,description,rating,expanded: false,edit:false};
+    
+    return {description:description,rating:Number(rating)};
   }
 
-  function handleEditedBookmark(){
+  function handleEditFormBookmark(){
     $('.bookmark-list').on('click','.edit-bookmark',function(event){
       let itemId = findTargetId(event.currentTarget);
       let bookmark = STORE.booklist.find(bookobj => itemId === bookobj.id);
       if(bookmark.edit){
-
         STORE.toggleEdit(itemId);
         STORE.toggleExpandBookmark(itemId);
         render();
@@ -173,6 +172,22 @@ const bookMarks = (function(){
       }
     });
   }
+  function handleCanceledit(){
+    $('.bookmark-list').on('click','.cancel-bookmark',function(event){
+      let itemId = findTargetId(event.currentTarget);
+      STORE.toggleExpandBookmark(itemId);
+      render();
+    });
+  }
+  const handleSubmitEdit = function(){
+    $('.bookmark-list').on('submit', function(event){
+      event.preventDefault();
+      console.log(event.target);
+      const bookmarkId = findTargetId(event.currentTarget);
+      const updatedBookmark = collectEditData(bookmarkId);
+      STORE.updateBookmark(bookmarkId, updatedBookmark);
+    });
+  };
   function findTargetId(item){
     return $(item)
       .closest('.book-item')
@@ -217,7 +232,10 @@ const bookMarks = (function(){
     handleToggleExpandBookmark();
     handleDeleteItem();
     handleBookmarkFilter();
-    handleEditedBookmark();
+    handleEditFormBookmark();
+    handleSubmitEdit();
+    handleCanceledit();
+    
     
   });
 

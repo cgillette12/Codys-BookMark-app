@@ -22,13 +22,18 @@ const STORE = (function(){
   };
   
   const toggleRatingFilter = function(rating){
-    this.ratingFilter = rating === 'all'? rating : parseInt(rating);
+    this.ratingFilter = rating === 'all' ? rating : parseInt(rating);
   };
   
   const toggleEdit = function(id){
     let bookfilter = this.booklist.find(obj=> obj.id === id);
     bookfilter.edit = !bookfilter.edit;
-    console.log(bookfilter);
+  };
+  const updateBookmark = function(id, updatedBookmark){
+    const targetedBookmark = this.booklist.find(obj => obj.id === id);
+    console.log(targetedBookmark);
+    Object.assign(targetedBookmark, updatedBookmark);
+
   };
   
 
@@ -43,7 +48,8 @@ const STORE = (function(){
     toggleExpandBookmark,
     removeItemFromBookmark,
     toggleRatingFilter,
-    toggleEdit
+    toggleEdit,
+    updateBookmark
 
   };
   
