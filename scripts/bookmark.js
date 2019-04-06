@@ -9,12 +9,12 @@ const bookMarks = (function(){
         <div class="button-controler">
           <button class="add-bookmark">Add Bookmarks</button>
           <select  class="rating-filter">
-              <option value="all"${STORE.ratingFilter === 'all' ? 'selected': ''}>all</option>
-              <option value="1"${STORE.ratingFilter === '1' ? 'selected': ''}>1</option>
-              <option value="2"${STORE.ratingFilter === '2' ? 'selected': ''}>2</option>
-              <option value="3"${STORE.ratingFilter === '3' ? 'selected': ''}>3</option>
-              <option value="4"${STORE.ratingFilter === '4' ? 'selected': ''}>4</option>
-              <option value="5"${STORE.ratingFilter === '5' ? 'selected': ''}>5</option>
+              <option value="all${(STORE.ratingFilter === 'all' )? 'selected': ''}">all</option>
+              <option value="1${(STORE.ratingFilter === '1' )? 'selected': ''}">1</option>
+              <option value="2${(STORE.ratingFilter === '2') ? 'selected': ''}">2</option>
+              <option value="3${(STORE.ratingFilter === '3') ? 'selected': ''}">3</option>
+              <option value="4${(STORE.ratingFilter === '4') ? 'selected': ''}">4</option>
+              <option value="5${(STORE.ratingFilter === '5' )? 'selected': ''}">5</option>
           </select>
         </div>`;
     
@@ -77,11 +77,11 @@ const bookMarks = (function(){
         <h2>${booklist.title}</h2>
                 <input type="input-text" class="desc${booklist.id}" value="${booklist.description === ''?'No Description':booklist.description}"</p>
             <div class="star-expanded-rating">
-              <input type="radio" name="edit-rating${booklist.id}" class="rating" value=" ${STORE.ratingFilter === '1' ? 'selected': ''}"><label for="edit-rating">1</lable>
-              <input type="radio" name="edit-rating${booklist.id}" class="rating" value="${STORE.ratingFilter === '2' ? 'selected': ''}"><label for="edit-rating">2</lable>
-              <input type="radio" name="edit-rating${booklist.id}" class="rating" value="${STORE.ratingFilter === '3' ? 'selected': ''}"><label for="edit-rating">3</lable>
-              <input type="radio" name="edit-rating${booklist.id}" class="rating" value="${STORE.ratingFilter === '4' ? 'selected': ''}"><label for="edit-rating">4</lable>
-              <input type="radio" name="edit-rating${booklist.id}" class="rating"  value="${STORE.ratingFilter === '5' ? 'selected': ''}"><label for="edit-rating">5</lable>
+              <input type="radio" name="edit-rating${booklist.id}" class="rating" value=" ${(STORE.rating === '1' )? 'selected': ''}"><label for="edit-rating">1</lable>
+              <input type="radio" name="edit-rating${booklist.id}" class="rating" value="${(STORE.rating === '2') ? 'selected': ''}"><label for="edit-rating">2</lable>
+              <input type="radio" name="edit-rating${booklist.id}" class="rating" value="${(STORE.rating === '3') ? 'selected': ''}"><label for="edit-rating">3</lable>
+              <input type="radio" name="edit-rating${booklist.id}" class="rating" value="${(STORE.rating === '4') ? 'selected': ''}"><label for="edit-rating">4</lable>
+              <input type="radio" name="edit-rating${booklist.id}" class="rating"  value="${(STORE.rating === '5') ? 'selected': ''}"><label for="edit-rating">5</lable>
             </div>
             <p><a href="${booklist.url}">Visit website</a></p>
             <button class="save-bookmark" type="submit" >Save</button>
@@ -150,8 +150,8 @@ const bookMarks = (function(){
   }
   function collectEditData(id){
     const description =$(`.desc${id}`).val();
-    const rating = $(`input[name=edit-rating]:checked${id}` ).val();
-    return {description:description};
+    const rating = $(`input[name=edit-rating${id}]:checked` ).val();
+    return {description:description, rating: Number(rating)};
   }
 
   function handleEditFormBookmark(){
