@@ -19,19 +19,49 @@ const bookMarks = (function () {
 
   function generateNewHeader() {
     return `<form class="formEditor" role="form">
-        <label for="book-title">Create New Bookmark</label><br>
-        <input type="input-text" name="title" id="title" placeholder="facebook" required>
-        <input type="intput-text" name="url" id="url" placeholder="https://www.facebook.com/"required><br>
-        <input type="input-text" name="description" id="description" placeholder="description">
+        <div class='editor-header'>
+          <h2>Create New Bookmark</h2>
+        </div>
+        <section class='header-input-section'>
+          <div class='input-spacer'>
+            <label for="Title" class='title-label'>Title</label>
+            <input type="input-text" name="title" id="title" placeholder="facebook" required/>
+          </div>
+          <div class='input-spacer'>
+            <label for="Url" class='Url-label'>Url *"url must be min length 5 and begin http(s)://</label>
+            <input type="intput-text" name="url" id="url" placeholder="https://www.facebook.com/"required/>
+          </div>
+          <div class='input-spacer'>
+            <label for="Description" class='Description-label'>Description</label>
+            <input type="input-text" name="description" id="description" placeholder="Description"/>
+          </div>
+        </section>
      <div class="star-create-rating">
-          <input type="radio" name="create-rating" value="1" class="star-create-rating" checked><label for="create-rating">1</label>
-          <input type="radio" name="create-rating" value="2" class="star-create-rating"><label for="create-rating">2</label>
-          <input type="radio" name="create-rating" value="3" class="star-create-rating"><label for="create-rating">3</label>
-          <input type="radio" name="create-rating" value="4" class="star-create-rating"><label for="create-rating">4</label>
-          <input type="radio" name="create-rating" value="5" class="star-create-rating"><label for="create-rating">5</label>
+          <div class='radio-spacer'>
+            <input type="radio" name="create-rating" value="1" class="star-create-rating" checked/>
+            <label for="create-rating">1</label>
+          </div>
+          <div class='radio-spacer'>
+            <input type="radio" name="create-rating" value="2" class="star-create-rating"/>
+            <label for="create-rating">2</label>
+          </div>
+          <div class='radio-spacer'>
+            <input type="radio" name="create-rating" value="3" class="star-create-rating"/>
+            <label for="create-rating">3</label>
+          </div>
+          <div class='radio-spacer'>
+            <input type="radio" name="create-rating" value="4" class="star-create-rating"/>
+            <label for="create-rating">4</label>
+          </div>
+          <div class='radio-spacer'>
+            <input type="radio" name="create-rating" value="5" class="star-create-rating"/>
+            <label for="create-rating">5</label>
+          </div>
       </div>
-      <button class="add-bookmark-42" type="submit">Add Bookmark</button>
-      <button class="cancel-edit-button" type="button">Cancel</button>
+      <section class='Editor-button-section'>
+        <button class="add-bookmark-42" type="submit">Add Bookmark</button>
+        <button class="cancel-edit-button" type="button">Cancel</button>
+      </section>
    </form>`;
   }
 
@@ -91,8 +121,11 @@ const bookMarks = (function () {
               <input type="radio" name="edit-rating${booklist.id}" class="rating" value="5"${(booklist.rating === 5) ? 'checked' : ''}><label for="edit-rating">5</lable>
             </div>
             <a href="${booklist.url}">Visit website</a>
-            <button class="save-bookmark" type="submit" >Save</button>
-            <button class="cancel-bookmark">cancel</button>        
+            <section class='bookmark-button-section'>
+              <button class="save-bookmark" type="submit" >Save</button>
+              <button class="cancel-bookmark">cancel</button> 
+            </section>
+
         </form>
   </li>`;
   }
