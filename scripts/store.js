@@ -1,5 +1,5 @@
 'use strict';
-/* global $,api,cuid*/
+/* global $,api,cuid , STORE*/
 
 const STORE = (function(){
   const addBookmark = function(bookmark){
@@ -31,15 +31,13 @@ const STORE = (function(){
   };
   const updateBookmark = function(id, updatedBookmark){
     const targetedBookmark = this.booklist.find(obj => obj.id === id);
-    console.log(targetedBookmark);
     Object.assign(targetedBookmark, updatedBookmark);
 
   };
   
 
   return {
-    booklist:[
-      
+    booklist:[  
     ],
     addingBookmark:false,
     ratingFilter: 'all',
