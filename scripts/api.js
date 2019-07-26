@@ -5,8 +5,14 @@ const api = (function (){
   const base_Url = 'https://thinkful-list-api.herokuapp.com/cody/bookmarks';
   const getItems = function(){
     return fetch(base_Url)
-      .then(res => res.json())
+      .then(res => {
+        if (res.ok) {
+          return res.json();
+        }
+        throw new Error(res.statusText);
+      })
       .then(data => data);
+     
   };
   const createItem = function(obj){
     let newItem = JSON.stringify(obj);

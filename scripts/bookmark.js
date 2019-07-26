@@ -180,7 +180,18 @@ const bookMarks = (function () {
         expanded: false,
         edit: false
       };
-      api.createItem({ title: newTitle, url: newUrl, desc: newDescription, rating: parseInt(newRating) });
+      api.createItem({ title: newTitle, url: newUrl, desc: newDescription, rating: parseInt(newRating) })
+        .then(res => {
+          if (res.ok) {
+            return res.json();
+          }
+          throw new Error(res.statusText);
+        })
+        .then(data => data)
+        .catch(err => {
+          return $('#js-error-message').text(`Something went wrong: ${err.message}`);
+        });
+      
       STORE.addBookmark(newobj);
       STORE.toggleAddForDisplayed();
       render();
@@ -226,7 +237,17 @@ const bookMarks = (function () {
       event.preventDefault();
       const bookmarkId = findTargetId(event.currentTarget);
       const booklist = collectEditData(bookmarkId);
-      api.updatItem(bookmarkId,booklist);
+      api.updatItem(bookmarkId,booklist)
+        .then(res => {
+          if (res.ok) {
+            return res.json();
+          }
+          throw new Error(res.statusText);
+        })
+        .then(data => data)
+        .catch(err => {
+          return $('#js-error-message').text(`Something went wrong: ${err.message}`);
+        });
       STORE.updateBookmark(bookmarkId, booklist);
       STORE.toggleExpandBookmark(bookmarkId);
       STORE.toggleEdit(bookmarkId);
@@ -255,7 +276,17 @@ const bookMarks = (function () {
   function handleDeleteItem() {
     $('.bookmark-list').on('click', '.remove-bookmark', function (event) {
       let itemId = findTargetId(event.target);
-      api.deleteItem(itemId);
+      api.deleteItem(itemId)
+        .then(res => {
+          if (res.ok) {
+            return res.json();
+          }
+          throw new Error(res.statusText);
+        })
+        .then(data => data)
+        .catch(err => {
+          return $('#js-error-message').text(`Something went wrong: ${err.message}`);
+        });
       STORE.removeItemFromBookmark(itemId);
       render();
     });
