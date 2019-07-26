@@ -8,7 +8,7 @@ $(function(){
       bookMarks.render();
     })
     ).catch(err => {
-      return $('#js-error-message').text(`Something went wrong: ${err.message}`);
+      return $('#error-message').text(`Something went wrong: ${err.message}`);
     });
   bookMarks.render();
   bookMarks.mainHandleControler();
